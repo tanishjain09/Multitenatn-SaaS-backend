@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Data
 @Entity
-@Table(name = "tenats",
+@Table(name = "tenants",
         uniqueConstraints = {@UniqueConstraint(columnNames = "tenant_key")})
 public class Tenant {
 

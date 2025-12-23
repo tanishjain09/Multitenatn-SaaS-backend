@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Instant;
 import java.util.List;
@@ -23,6 +24,11 @@ public class TenantController {
     @ResponseStatus(HttpStatus.CREATED)
     public Tenant createTenant(@RequestBody Tenant request) {
 
+        if(tenantRepository.existsByTenantKey(request.getTenantKey())) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Tenant with this Key already exists");
+        }
         Tenant tenant = new Tenant();
         tenant.setTenantKey(request.getTenantKey());
         tenant.setName(request.getName());
